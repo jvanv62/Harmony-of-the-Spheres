@@ -1,3 +1,9 @@
+/**This file is where Gatsby expects to find any usage of the Gatsby node APIs (if any). 
+ * These allow customization/extension of default Gatsby settings affecting pieces 
+ * of the site build process. 
+ */
+
+/** @type {*} */
 const _ = require("lodash");
 const fs = require("fs");
 
@@ -154,9 +160,8 @@ exports.createPages = async ({ actions, graphql }) => {
           pagePath,
           type: fieldValue,
           limit: scenariosPerPage,
-          background: `${
-            images.find(image => fieldValue === image.name).name
-          }.jpg`,
+          background: `${images.find(image => fieldValue === image.name).name
+            }.jpg`,
           categoryDescription: images.find(image => fieldValue === image.name)
             .description,
           skip: i * scenariosPerPage,
@@ -218,9 +223,8 @@ exports.createPages = async ({ actions, graphql }) => {
               discoveryFacility: fieldValue,
               limit: scenariosPerPage,
               skip: i * scenariosPerPage,
-              background: `${
-                images.find(image => fieldValue === image.name).name
-              }.jpg`,
+              background: `${images.find(image => fieldValue === image.name).name
+                }.jpg`,
               categoryDescription: images.find(
                 image => fieldValue === image.name
               ).description,
@@ -258,9 +262,8 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     createNodeField({
       node,
       name: `scenarioImage`,
-      value: `../../images/scenarios/${
-        fs.existsSync(filePath) ? node.fileName : "exoplanet"
-      }.png`
+      value: `../../images/scenarios/${fs.existsSync(filePath) ? node.fileName : "exoplanet"
+        }.png`
     });
   }
 };

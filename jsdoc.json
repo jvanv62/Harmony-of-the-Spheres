@@ -1,16 +1,23 @@
 {
-    "plugins": ["plugins/markdown", "node_modules/better-docs", 
-        "node_modules/better_docs/typescript","node_modules/better-docs/category","node_modules/better-docs/component"],
+    "plugins": ["plugins/markdown", 
+                "node_modules/better-docs", 
+                "node_modules/better-docs/typescript",
+                "node_modules/better-docs/category",
+                "node_modules/better-docs/component"],
     "opts": {
-        "template":     "node_modules/better-docs",
+        "template":     "node_modules/better-docs/",
         "destination":  "docs/",
         "recurse":      true,
-        "vesrbose":     true
+        "verbose":     true
     },
     "tags": {
         "allowUnknownTags": ["component", "category", "optional"]    
     },  
-    "source": {
+    "source": { 
+       "include": ["./src/components/", "./src/physics/", "./src/utils.ts", 
+       "./gatsby-browser.js", "./gatsby-node.js", "./gatsby-ssr.js", 
+       "./package.json"],
+        "exclude":["./static/", "./src/masses.ts", "./src/images", "./src/data"],
         "includePattern": "\\.(jsx|js|ts|tsx)$"
     }
 }

@@ -10,7 +10,7 @@ import {
   ADD_MASS,
   DELETE_MASS,
   ScenarioProperty,
-  MassProperty
+  MassProperty,
 } from "../types/scenario";
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
@@ -22,13 +22,13 @@ export const modifyScenarioProperty = (
 ): ThunkAction<void, AppState, void, Action> => (
   dispatch: Dispatch<ScenarioActionTypes>
 ) =>
-  scenarioProperties.forEach(scenarioProperty =>
+  scenarioProperties.forEach((scenarioProperty) =>
     dispatch({
       type: MODIFY_SCENARIO_PROPERTY,
       payload: {
         key: scenarioProperty.key,
-        value: scenarioProperty.value
-      }
+        value: scenarioProperty.value,
+      },
     })
   );
 
@@ -38,11 +38,11 @@ export const resetScenario = () =>
       JSON.parse(sessionStorage.getItem("currentScenario") || "{}")
     ).map(([key, value]: [string, any]) => ({
       key,
-      value
+      value,
     })),
     {
       key: "reset",
-      value: true
+      value: true,
     }
   );
 
@@ -51,10 +51,10 @@ export const modifyMassProperty = (
 ): ThunkAction<void, AppState, void, Action> => (
   dispatch: Dispatch<ScenarioActionTypes>
 ) =>
-  massProperties.forEach(massProperty =>
+  massProperties.forEach((massProperty) =>
     dispatch({
       type: MODIFY_MASS_PROPERTY,
-      payload: massProperty
+      payload: massProperty,
     })
   );
 
@@ -80,13 +80,13 @@ export const addMass = (
 
   dispatch({
     type: ADD_MASS,
-    payload: getOrbit(primary, payload.secondary, scenario.g)
+    payload: getOrbit(primary, payload.secondary, scenario.g),
   });
 };
 
 export const deleteMass = (name: string): ScenarioActionTypes => ({
   type: DELETE_MASS,
-  name
+  name,
 });
 
 export const setScenario = (scenario: ScenarioState): ScenarioActionTypes => {
@@ -96,13 +96,17 @@ export const setScenario = (scenario: ScenarioState): ScenarioActionTypes => {
       type: SET_SCENARIO,
       scenario: {
         ...scenario,
-        masses: elementsToVectors(primary, scenario.masses.slice(1), scenario.g)
-      }
+        masses: elementsToVectors(
+          primary,
+          scenario.masses.slice(1),
+          scenario.g
+        ),
+      },
     };
   } else {
     return {
       type: SET_SCENARIO,
-      scenario
+      scenario,
     };
   }
 };
@@ -124,11 +128,11 @@ export const getTrajectory = (
   modifyScenarioProperty(
     {
       key: "trails",
-      value: false
+      value: false,
     },
     {
       key: "playing",
-      value: false
+      value: false,
     }
   )(dispatch, getState);
 
@@ -164,16 +168,16 @@ export const getTrajectory = (
     z: referenceMass.z - mass.z,
     vx: referenceMass.vx - mass.vx,
     vy: referenceMass.vy - mass.vy,
-    vz: referenceMass.vz - mass.vz
+    vz: referenceMass.vz - mass.vz,
   }));
 
   const getTrajectory = () =>
     new Promise<{ x: number; y: number; z: number; p?: MassProperty }[]>(
-      resolve => {
+      (resolve) => {
         trajectoryCruncher.addEventListener(
           "message",
           ({
-            data: { trajectory }
+            data: { trajectory },
           }: {
             data: {
               trajectory: [Vector, { x: number; y: number; z: number; p: any }];
@@ -205,7 +209,7 @@ export const getTrajectory = (
           o: scenario.o,
           tof: correction
             ? scenario.trajectoryTargetArrival - scenario.elapsedTime
-            : scenario.trajectoryTargetArrival
+            : scenario.trajectoryTargetArrival,
         });
       }
     );
@@ -219,24 +223,24 @@ export const getTrajectory = (
   if (applyTrajectory) {
     modifyScenarioProperty({
       key: "masses",
-      value: rotatedScenario
+      value: rotatedScenario,
     })(dispatch, getState);
 
     modifyMassProperty(
       {
         name: spacecraft.name,
         key: "vx",
-        value: trajectory.x
+        value: trajectory.x,
       },
       {
         name: spacecraft.name,
         key: "vy",
-        value: trajectory.y
+        value: trajectory.y,
       },
       {
         name: spacecraft.name,
         key: "vz",
-        value: trajectory.z
+        value: trajectory.z,
       }
     )(dispatch, getState);
   }
@@ -247,9 +251,9 @@ export const getTrajectory = (
       value: correction
         ? {
             ...rendevouz,
-            p: { ...rendevouz.p, t: scenario.trajectoryRendevouz.p.t }
+            p: { ...rendevouz.p, t: scenario.trajectoryRendevouz.p.t },
           }
-        : rendevouz
+        : rendevouz,
     },
     { key: "playing", value: originalPlayState },
     { key: "trails", value: originalTrailsState }

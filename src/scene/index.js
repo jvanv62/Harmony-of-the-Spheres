@@ -2,7 +2,7 @@ import * as THREE from "three";
 import store from "../state/store";
 import { modifyScenarioProperty, deleteMass } from "../state/creators/scenario";
 import H3 from "../physics/vectors";
-import getIntegrator from "../physics/integrators";
+import getIntegrator from "../physics/integrators"; // default export
 import { getObjFromArrByKeyValuePair } from "../utils";
 import {
   setBarycenter,
@@ -31,6 +31,9 @@ import {
 
 const TWEEN = require("@tweenjs/tween.js");
 
+/** @type {*} 
+ * Set up the scene
+*/
 const scene = {
   init(webGlCanvas, graphics2DCanvas, audio) {
     this.w = window.innerWidth;
@@ -213,7 +216,7 @@ const scene = {
 
       this.addMassTrajectory.update(
         (this.camera.rotatingReferenceFrame.x - primary.x + ellipse.focus) *
-          scale,
+        scale,
         (this.camera.rotatingReferenceFrame.y - primary.y) * scale,
         ellipse.xRadius * scale,
         ellipse.yRadius * scale,
@@ -509,7 +512,7 @@ const scene = {
       ParticleService.addParticleSystems(
         [
           this.scenario.particles.shapes[
-            this.scenario.particles.shapes.length - 1
+          this.scenario.particles.shapes.length - 1
           ]
         ],
         this.scenario.masses,
@@ -542,14 +545,14 @@ const scene = {
       this.scenario.systemBarycenter
         ? this.system.masses
         : this.system.masses
-            .map(mass => {
-              if (
-                mass.name === barycenterMassOne ||
-                mass.name === barycenterMassTwo
-              )
-                return mass;
-            })
-            .filter(mass => mass !== undefined),
+          .map(mass => {
+            if (
+              mass.name === barycenterMassOne ||
+              mass.name === barycenterMassTwo
+            )
+              return mass;
+          })
+          .filter(mass => mass !== undefined),
       this.barycenterPosition
     );
 
@@ -644,7 +647,7 @@ const scene = {
                 this.camera.position.distanceTo(
                   massManifestation.getObjectByName("main").position
                 )) *
-                3.25
+              3.25
             );
           }
         }
@@ -725,7 +728,7 @@ const scene = {
       this.grid.scale.setScalar(
         (this.camera.position.distanceTo(new THREE.Vector3(0, 0, 0)) /
           this.scenario.scale) *
-          8
+        8
       );
     } else {
       if (this.grid) {

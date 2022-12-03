@@ -12,7 +12,16 @@ import Yoshida6 from "./Yoshida6";
 import KahanLi8 from "./KahanLi8";
 import Sofspa10 from "./Sofspa10";
 import OrbitalElementsIntegrator from "./OrbitalElementsIntegrator";
+/**
+ * switch function to return an integrator instance
+ *
+ * @category Physics
+ */
 
+/**
+ * @export
+ * @global array of integrator names
+ */
 export const integrators = [
   "RK4",
   "Euler",
@@ -27,9 +36,17 @@ export const integrators = [
   "Yoshida6",
   "KahanLi8",
   "Sofspa10",
-  "Orbital Elements"
+  "Orbital Elements",
 ];
 
+/**
+ *
+ *
+ * @export
+ * @param {string} integrator
+ * @param {IntegratorType} config
+ * @return {IntegratorType}
+ */
 export default function(integrator: string, config: IntegratorType) {
   switch (integrator) {
     case "RK4":

@@ -311,8 +311,7 @@ export default ({
           callback={modifyScenarioProperty}
           icon="fas fa-chevron-right"
           payload={{ key: "dt" }}
-          payloadKey="value"
-        />
+          payloadKey="value" initialIndex={0} /> // JVV- set InitialIndex, lint error correction
       </div>
     </Fragment>
   );

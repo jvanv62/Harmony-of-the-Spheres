@@ -4,7 +4,7 @@ import {
   TextureLoader,
   SpriteMaterial,
   Sprite,
-  AdditiveBlending
+  AdditiveBlending,
 } from "three";
 import ColladaLoader from "colladaloader2asmodule";
 import { degreesToRadians } from "../physics/utils";
@@ -50,7 +50,7 @@ export default class extends MassManifestation {
     const flameMaterial = new SpriteMaterial({
       map: spriteMap,
       blending: AdditiveBlending,
-      opacity: 0.8
+      opacity: 0.8,
     });
 
     const flameSprite1 = new Sprite(flameMaterial);

@@ -1,6 +1,14 @@
 import rknBase from "./rknBase";
 import H3 from "../vectors";
 
+/**
+ * Adaptive RKN Base Integrator
+ *
+ * @export
+ * @class RknBaseIntegrator
+ * @extends {rknBase}
+ * @category Physics
+ */
 export default class extends rknBase {
   constructor(params) {
     super(params);
@@ -20,8 +28,8 @@ export default class extends rknBase {
     for (let i = 0; i < pLen; i++) {
       error += Math.sqrt(
         Math.pow(p1[i].x - p2[i].x, 2) +
-          Math.pow(p1[i].y - p2[i].y, 2) +
-          Math.pow(p1[i].z - p2[i].z, 2)
+        Math.pow(p1[i].y - p2[i].y, 2) +
+        Math.pow(p1[i].z - p2[i].z, 2)
       );
     }
     return error;

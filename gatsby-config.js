@@ -1,3 +1,11 @@
+/**This is the main configuration file for a Gatsby site. 
+ * This is where you can specify information about your site (metadata) like the site title 
+ * and description, which Gatsby plugins you’d like to include, etc. 
+ * Check out the config docs for more detail. 
+ * 
+ * @category Gatsby
+ */
+
 const path = require(`path`);
 
 module.exports = {

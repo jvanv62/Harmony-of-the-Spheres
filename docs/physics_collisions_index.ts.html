@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> physics/collisions/index.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-utils.html">utils</a></li><li><a href="module-Vector.html">Vector</a></li></ul><h3>Classes</h3><ul><li><a href="module-Vector.html">Vector</a></li><li><a href="RK4.html">RK4</a></li></ul><h3>Global</h3><ul><li><a href="global.html#applyThrust">applyThrust</a></li><li><a href="global.html#bodyTypes">bodyTypes</a></li><li><a href="global.html#calculateAlpha">calculateAlpha</a></li><li><a href="global.html#calculateBeta">calculateBeta</a></li><li><a href="global.html#calculateL1R">calculateL1R</a></li><li><a href="global.html#clampAbs">clampAbs</a></li><li><a href="global.html#degreesToRadians">degreesToRadians</a></li><li><a href="global.html#elementsToVectors">elementsToVectors</a></li><li><a href="global.html#findAvailableMassName">findAvailableMassName</a></li><li><a href="global.html#getA">getA</a></li><li><a href="global.html#getApoapsis">getApoapsis</a></li><li><a href="global.html#getDistanceParams">getDistanceParams</a></li><li><a href="global.html#getEllipse">getEllipse</a></li><li><a href="global.html#getEscapeVMag">getEscapeVMag</a></li><li><a href="global.html#getFocusOfEllipse">getFocusOfEllipse</a></li><li><a href="global.html#getLagrangePoints">getLagrangePoints</a></li><li><a href="global.html#getPeriapsis">getPeriapsis</a></li><li><a href="global.html#getRandomInteger">getRandomInteger</a></li><li><a href="global.html#getRandomNumberInRange">getRandomNumberInRange</a></li><li><a href="global.html#getRandomRadian">getRandomRadian</a></li><li><a href="global.html#getSemiMinorAxis">getSemiMinorAxis</a></li><li><a href="global.html#getVMag">getVMag</a></li><li><a href="global.html#integrators">integrators</a></li><li><a href="global.html#setBarycenter">setBarycenter</a></li><li><a href="global.html#utils">utils</a></li></ul></div><div class="category"><h2>Physics</h2><h3>Classes</h3><ul><li><a href="Collision.html">Collision</a></li><li><a href="RknBaseIntegrator.html">RknBaseIntegrator</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>physics/collisions/index.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//import { getDistanceParams, getRandomNumberInRange, clampAbs } from "../utils";
+import { getDistanceParams, getRandomNumberInRange } from "../utils";
+import H3 from "../vectors";
+
+/**
+ * class for managing collisions
+ *
+ * @export
+ * @class Collision
+ * @category Physics
+ */
+export default class {
+  static doCollisions(masses: MassType[], scale: number, callback: Function) {
+    let massesLen = masses.length;
+
+    for (let i = 0; i &lt; massesLen; i++) {
+      const massI = masses[i];
+
+      for (let j = 0; j &lt; massesLen; j++) {
+        if (i !== j) {
+          const massJ = masses[j];
+
+          const dParams = getDistanceParams(massI, massJ);
+
+          const d = Math.sqrt(dParams.dSquared) * scale;
+
+          if (d &lt; massI.radius + massJ.radius) {
+            let survivor;
+            let looser;
+            let looserIndex;
+
+            if (massI.m > massJ.m || massI.m === massJ.m) {
+              survivor = massI;
+              looser = massJ;
+              looserIndex = j;
+            } else {
+              survivor = massJ;
+              looser = massI;
+              looserIndex = i;
+            }
+
+            survivor.m = massI.m + massJ.m;
+
+            masses.splice(looserIndex, 1);
+
+            callback(looser, survivor);
+
+            massesLen--;
+
+            looserIndex--;
+          }
+        }
+      }
+    }
+  }
+
+  static getRandomRotationVector(maxAngle: number): Vector {
+    return {
+      x: getRandomNumberInRange(-maxAngle, maxAngle),
+      y: getRandomNumberInRange(-maxAngle, maxAngle),
+      z: getRandomNumberInRange(-maxAngle, maxAngle),
+    };
+  }
+
+  static getCollisionDirectionVector(
+    survivor: MassType,
+    looser: MassType
+  ): Vector {
+    return new H3().set(survivor).getDirectionalSlope(looser);
+  }
+
+  static generateEjectaStateVectors(
+    survivor: MassType,
+    looser: MassType,
+    fragments: number,
+    scale: number
+  ) {
+    const velocity = this.getDeflectedVelocity(survivor, looser);
+    const collisionDirectionVector = this.getCollisionDirectionVector(
+      survivor,
+      looser
+    );
+    const looserRadius = looser.radius / scale;
+
+    return [...new Array(fragments)].map((_fragment) => {
+      const ejectaRotationVector = this.getRandomRotationVector(25);
+
+      const particleVelocity = new H3()
+        .set(velocity)
+        .multiplyByScalar(getRandomNumberInRange(0.1, 0.9))
+        .rotate({ x: 1, y: 0, z: 0 }, ejectaRotationVector.x)
+        .rotate({ x: 0, y: 1, z: 0 }, ejectaRotationVector.y)
+        .rotate({ x: 0, y: 0, z: 1 }, ejectaRotationVector.z)
+        .add({ x: survivor.vx, y: survivor.vy, z: survivor.vz });
+
+      const position = new H3()
+        .set({
+          x: looser.x,
+          y: looser.y,
+          z: looser.z,
+        })
+        .add({
+          x: Math.sign(looser.vx) * (looserRadius * collisionDirectionVector.x),
+          y: Math.sign(looser.vy) * (looserRadius * collisionDirectionVector.y),
+          z: Math.sign(looser.vz) * (looserRadius * collisionDirectionVector.z),
+        })
+        .toObject();
+
+      return {
+        x: position.x,
+        y: position.y,
+        z: position.z,
+        vx: particleVelocity.x,
+        vy: particleVelocity.y,
+        vz: particleVelocity.z,
+        lives: 20,
+        size: survivor.radius / 5,
+      };
+    });
+  }
+
+  static getClosestPointOnSphere(
+    point: H3,
+    radius: number,
+    rotation: H3
+  ): Vector {
+    return point
+      .normalise()
+      .multiplyByScalar(radius)
+      .rotate({ x: 1, y: 0, z: 0 }, -rotation.x)
+      .rotate({ x: 0, y: 1, z: 0 }, -rotation.y)
+      .rotate({ x: 0, y: 0, z: 1 }, -rotation.z);
+  }
+
+  static getKineticEnergy(mass: MassType, vMag: number) {
+    return 0.5 * mass.m * (vMag * vMag);
+  }
+
+  static getDeflectedVelocity(survivor: MassType, looser: MassType): Vector {
+    const v = new H3().set({ x: looser.vx, y: looser.vy, z: 0 });
+    const d = new H3().set({
+      x: looser.x - survivor.x,
+      y: looser.y - survivor.y,
+      z: 0,
+    });
+
+    const vLen = v.getLength();
+
+    v.divideByScalar(vLen);
+    d.normalise();
+
+    const alpha = d.x * v.x + d.y * v.y;
+    const g = 2 * alpha * vLen;
+
+    d.multiplyByScalar(g);
+
+    return {
+      x: looser.vx - d.x,
+      y: looser.vy - d.y,
+      z: -looser.vz,
+    };
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

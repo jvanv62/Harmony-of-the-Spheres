@@ -16,8 +16,13 @@ export default class {
   ): number {
     return ((-ev * mfr) / (dm + fm)) * dt;
   }
-
-  static applyThrust(spacecraft: MassType, deltaV: number): void {
+/**
+ * @description  Adds scalar deltaV to three dimensional velocity of spacecraft
+ * @static
+ * @param {MassType} spacecraft
+ * @param {number} deltaV
+ */
+static applyThrust(spacecraft: MassType, deltaV: number): void {
     const directionalSlope = new H3()
       .set({ x: spacecraft.x, y: spacecraft.y, z: spacecraft.z })
       .getDirectionalSlope({

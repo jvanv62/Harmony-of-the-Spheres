@@ -1,5 +1,13 @@
+/** @module Vector */
 import { degreesToRadians } from "../utils";
-
+/**
+ * Utility class for managing three dimensional vectors.
+ * @author Darrel
+ * @export the vector class
+ * @class Vector
+ *
+ * contains functions to do basic vector math
+ */
 export default class {
   x: number;
   y: number;
@@ -59,7 +67,7 @@ export default class {
     return {
       x: ((dx / d) * dx) / d,
       y: ((dy / d) * dy) / d,
-      z: ((dz / d) * dz) / d
+      z: ((dz / d) * dz) / d,
     };
   }
 
@@ -159,7 +167,7 @@ export default class {
       x: axis.x * s,
       y: axis.y * s,
       z: axis.z * s,
-      w: Math.cos(halfAngle)
+      w: Math.cos(halfAngle),
     };
 
     const ix = q.w * this.x + q.y * this.z - q.z * this.y;

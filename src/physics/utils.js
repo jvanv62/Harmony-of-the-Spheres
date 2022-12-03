@@ -1,5 +1,12 @@
 import H3 from "./vectors";
-
+/**
+ * @description returns distance between two points in 3-space
+ * @author Darell
+ * @export
+ * @param {*} p1
+ * @param {*} p2
+ * @return {*} distances along axes and vector magnitude
+ */
 export function getDistanceParams(p1, p2) {
   const dx = p2.x - p1.x;
   const dy = p2.y - p1.y;
@@ -7,15 +14,42 @@ export function getDistanceParams(p1, p2) {
 
   return { dx, dy, dz, dSquared: dx * dx + dy * dy + dz * dz };
 }
-
+/**
+ *  get V Magnitude
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {number} g
+ * @param {mass} primary
+ * @param {*} d
+ * @param {*} [a=d]
+ * @return {number} magnitude
+ */
 export function getVMag(g, primary, d, a = d) {
   return Math.sqrt(Math.abs(g * primary.m * (2 / d - 1 / a)));
 }
 
+/**
+ * 
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} g
+ * @param {*} m
+ * @param {*} d
+ * @return {*} 
+ */
 export function getEscapeVMag(g, m, d) {
   return Math.sqrt((2 * g * m) / d);
 }
 
+/**
+ * 
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} min
+ * @param {*} max
+ * @param {*} value
+ * @return {*} 
+ */
 export function clampAbs(min, max, value) {
   return Math.min(Math.max(Math.abs(value), min), max);
 }
@@ -65,22 +99,62 @@ export function getOrbit(primary, secondary, g) {
   };
 }
 
+/**
+ * @description
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} a
+ * @param {*} e
+ * @return {*} 
+ */
 export function getPeriapsis(a, e) {
   return a * (1 - e);
 }
 
+/**
+ * @description
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} a
+ * @param {*} e
+ * @return {*} 
+ */
 export function getApoapsis(a, e) {
   return a * (1 + e);
 }
 
+/**
+ * @description
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} a
+ * @param {*} e
+ * @return {*} 
+ */
 export function getSemiMinorAxis(a, e) {
   return a * Math.sqrt(1 - e * e);
 }
 
+/**
+ * @description
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} a
+ * @param {*} b
+ * @return {*} 
+ */
 export function getFocusOfEllipse(a, b) {
   return Math.sqrt(a * a - b * b);
 }
 
+/**
+ * @description
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} a
+ * @param {*} e
+ * @return {*} 
+ */
 export function getEllipse(a, e) {
   const b = getSemiMinorAxis(a, e);
 
@@ -91,6 +165,15 @@ export function getEllipse(a, e) {
   };
 }
 
+/**
+ * @description   adfgf
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} primary
+ * @param {*} masses
+ * @param {*} g
+ * @return {*} 
+ */
 export function elementsToVectors(primary, masses, g) {
   const primaryWithVectors = {
     ...primary,
@@ -117,10 +200,25 @@ export function elementsToVectors(primary, masses, g) {
   return output;
 }
 
+/**
+ * @description jfgjgfgf
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} apsisOne
+ * @param {*} apsisTwo
+ * @return {*} 
+ */
 export function getA(apsisOne, apsisTwo) {
   return (apsisOne + apsisTwo) / 2;
 }
 
+/**
+ * @description convert angle from degrees to radians
+ * @author 
+ * @export
+ * @param {*} degrees
+ * @return {*} 
+ */
 export function degreesToRadians(degrees) {
   return (Math.PI / 180) * degrees;
 }
@@ -136,18 +234,49 @@ export const calculateOrbitalVertices = (orbitalPeriod, dt) => {
     : orbitalVertices;
 };
 
+/**
+ * @description gjhgjhg
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} min
+ * @param {*} max
+ * @return {*} 
+ */
 export function getRandomNumberInRange(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+/**
+ * @description jhgjghjg
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @return {*} 
+ */
 export function getRandomRadian() {
   return Math.PI * 2 * Math.random();
 }
 
+/**
+ * @description gjhgjghhj
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} min
+ * @param {*} max
+ * @return {*} 
+ */
 export function getRandomInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+/**
+ * @description jhgjhgjhg
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @export
+ * @param {*} masses
+ * @param {*} [p=new H3()]
+ * @param {*} [v=new H3()]
+ * @return {*} 
+ */
 export function setBarycenter(masses, p = new H3(), v = new H3()) {
   const massesLen = masses.length;
   let systemMass = 0;
@@ -227,10 +356,29 @@ export const colorTemperatureToRGB = kelvin => {
   };
 };
 
+/**
+ * @description gjhfhgfhgf
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @param {*} m1
+ * @param {*} m2
+ */
 const calculateAlpha = (m1, m2) => m2 / (m1 + m2);
 
+/**
+ * @description hgfhgfhgf
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @param {*} m1
+ * @param {*} m2
+ */
 const calculateBeta = (m1, m2) => (m1 - m2) / (m1 + m2);
 
+/**
+ * @description hgfhgfhgf
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @param {*} alpha
+ * @param {*} d
+ * @param {*} v
+ */
 const calculateL1R = (alpha, d, v) => ({
   x: d - d * (1 - Math.pow(alpha / 3, 1 / 3)),
   y: 0,
@@ -261,16 +409,23 @@ const calculateL5R = (beta, d, v) => ({
   z: 0
 });
 
-export const getLagrangePoints = (m1, m2) => {
-  const d = Math.sqrt(getDistanceParams(m1, m2).dSquared);
-  const alpha = calculateAlpha(m1.m, m2.m);
-  const beta = calculateBeta(m1.m, m2.m);
+export /**
+ * @description jhgjgjh
+ * @author John Van Voorhis <jvanvoorhis62@gmail.com
+ * @param {*} m1
+ * @param {*} m2
+ * @return {*} 
+ */
+  const getLagrangePoints = (m1, m2) => {
+    const d = Math.sqrt(getDistanceParams(m1, m2).dSquared);
+    const alpha = calculateAlpha(m1.m, m2.m);
+    const beta = calculateBeta(m1.m, m2.m);
 
-  return [
-    calculateL1R(alpha, d),
-    calculateL2R(alpha, d),
-    calculateL3R(alpha, d),
-    calculateL4R(beta, d),
-    calculateL5R(beta, d)
-  ];
-};
+    return [
+      calculateL1R(alpha, d),
+      calculateL2R(alpha, d),
+      calculateL3R(alpha, d),
+      calculateL4R(beta, d),
+      calculateL5R(beta, d)
+    ];
+  };

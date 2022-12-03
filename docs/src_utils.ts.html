@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> src/utils.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-utils.html">utils</a></li><li><a href="module-Vector.html">Vector</a></li></ul><h3>Classes</h3><ul><li><a href="module-Vector.html">Vector</a></li><li><a href="RK4.html">RK4</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_">_</a></li><li><a href="global.html#applyThrust">applyThrust</a></li><li><a href="global.html#bodyTypes">bodyTypes</a></li><li><a href="global.html#calculateAlpha">calculateAlpha</a></li><li><a href="global.html#calculateBeta">calculateBeta</a></li><li><a href="global.html#calculateL1R">calculateL1R</a></li><li><a href="global.html#clampAbs">clampAbs</a></li><li><a href="global.html#degreesToRadians">degreesToRadians</a></li><li><a href="global.html#elementsToVectors">elementsToVectors</a></li><li><a href="global.html#findAvailableMassName">findAvailableMassName</a></li><li><a href="global.html#getA">getA</a></li><li><a href="global.html#getApoapsis">getApoapsis</a></li><li><a href="global.html#getDistanceParams">getDistanceParams</a></li><li><a href="global.html#getEllipse">getEllipse</a></li><li><a href="global.html#getEscapeVMag">getEscapeVMag</a></li><li><a href="global.html#getFocusOfEllipse">getFocusOfEllipse</a></li><li><a href="global.html#getLagrangePoints">getLagrangePoints</a></li><li><a href="global.html#getPeriapsis">getPeriapsis</a></li><li><a href="global.html#getRandomInteger">getRandomInteger</a></li><li><a href="global.html#getRandomNumberInRange">getRandomNumberInRange</a></li><li><a href="global.html#getRandomRadian">getRandomRadian</a></li><li><a href="global.html#getSemiMinorAxis">getSemiMinorAxis</a></li><li><a href="global.html#getVMag">getVMag</a></li><li><a href="global.html#integrators">integrators</a></li><li><a href="global.html#onRouteUpdate">onRouteUpdate</a></li><li><a href="global.html#setBarycenter">setBarycenter</a></li><li><a href="global.html#utils">utils</a></li><li><a href="global.html#wrapRootElement">wrapRootElement</a></li></ul></div><div class="category"><h2>Physics</h2><h3>Classes</h3><ul><li><a href="Collision.html">Collision</a></li><li><a href="RknBaseIntegrator.html">RknBaseIntegrator</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>src/utils.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module utils
+ */
+
+/**
+ *
+ *
+ * @export
+ * @return {*}  {string}
+ */
+export function getRandomColor(): string {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+
+  for (let i = 0; i &lt; 6; i++) color += letters[Math.floor(Math.random() * 16)];
+
+  return color;
+}
+
+/**
+ *
+ * @export
+ * @param arr
+ * @param key
+ * @param val
+ * @returns object or empty struct
+ */
+export function getObjFromArrByKeyValuePair(
+  arr: any[],
+  key: string,
+  val: any
+): any {
+  const obj = arr.filter((entry) => entry[key].indexOf(val) > -1)[0];
+
+  return typeof obj !== "undefined" ? obj : {};
+}
+
+/**
+ *remove duplicate entries, by key, from an array
+ * @export
+ * @param {{ [x: string]: any }[]} arr
+ * @param {string} key
+ * @return {*}  {{ [x: string]: any }[]}
+ */
+export function removeDuplicatesByKey(
+  arr: { [x: string]: any }[],
+  key: string
+): { [x: string]: any }[] {
+  const trimmedArray = [];
+  const values = [];
+  const arrLen = arr.length;
+
+  for (let i = 0; i &lt; arrLen; i++) {
+    let value = arr[i][key];
+    if (values.indexOf(value) === -1) {
+      trimmedArray.push(arr[i]);
+      values.push(value);
+    }
+  }
+  return trimmedArray;
+}
+
+/**
+ *  retrieve a texture from the current window
+ *
+ * @export getTextureFromCanvas
+ * @param {(
+ *     ctx: CanvasRenderingContext2D,
+ *     width: number,
+ *     height: number
+ *   ) => void} callback
+ * @return {*}  {HTMLCanvasElement}
+ */
+export function getTextureFromCanvas(
+  callback: (
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number
+  ) => void
+): HTMLCanvasElement {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  callback(ctx, width, height);
+
+  return canvas;
+}
+
+/**
+ * Date subtraction - dates are numbers, not structures
+ *
+ * @export
+ * @param {number} date1
+ * @param {number} date2
+ * @return {*}  {number}
+ */
+export function subtractDateFromAnotherDate(
+  date1: number,
+  date2: number
+): number {
+  return Math.abs(date2 - date1);
+}
+/** number of milliseconds in a year */
+export const MILLISECONDS_PER_YEAR = 31536000000;
+
+/**
+ *
+ *
+ * @export
+ * @param {number} milliseconds
+ * @return {*}  {number}
+ */
+export function convertMillisecondsToYears(milliseconds: number): number {
+  return milliseconds / 31536000000;
+}
+
+/**
+ * Do something with page numbers to describe start and end
+ *
+ * @export
+ * @param {number} page
+ * @param {number} count
+ * @return {*}  {{ start: number; end: number; }}
+ */
+export function getPaginationRange(
+  page: number,
+  count: number
+): { start: number; end: number } {
+  let start;
+  let end;
+
+  if (count &lt;= 3) {
+    start = 1;
+    end = count;
+  } else {
+    if (page &lt;= 2) {
+      start = 1;
+      end = 3;
+    } else if (page + 1 >= count) {
+      start = count - 2;
+      end = count;
+    } else {
+      start = page - 1;
+      end = page + 1;
+    }
+  }
+
+  return { start, end };
+}
+
+/**
+ * generates the linear
+
+ * @param {number} x1
+ * @param {number} x2
+ * @param {number} n
+ * @return {nummber[]}
+ */
+function linspace(x1: number, x2: number, n: number): number[] {
+  let result = [x1];
+  const diff = (x2 - x1) / (n - 1);
+  for (let i = 0; i &lt; n - 1; i++) {
+    result.push(result[result.length - 1] + diff);
+  }
+  return result;
+}
+
+/**
+ *
+ * e1 and e2 are the logarithms of x1 and x2 (base 10)
+ *
+ * @param {number} e1
+ * @param {number} e2
+ * @param {number} n
+ * @return {*}
+ */
+function logspace(e1: number, e2: number, n: number) {
+  // e1 and e2 are the logarithms of x1 and x2 (base 10)
+  const exponents = linspace(e1, e2, n);
+  return exponents.map((e) => Math.pow(10, e));
+}
+
+/**
+ *
+ *
+ * @param {number} x1
+ * @param {number} x2
+ * @param {number} n
+ * @return {*}
+ */
+function geomspace(x1: number, x2: number, n: number) {
+  // same as logspace, except you pass in x1 and x2 as is and log is taken internally.
+  return logspace(Math.log10(x1), Math.log10(x2), n);
+}
+
+/**
+ *
+ *
+ * @export
+ * @param {number} min
+ * @param {number} max
+ * @param {number} nButtons
+ * @return {*}
+ */
+export function getRangeValues(min: number, max: number, nButtons: number) {
+  if (max / 2 &lt; min) {
+    return geomspace(min, max, nButtons);
+  } else {
+    return geomspace(min, max / 2, nButtons - 1).concat([max]);
+  }
+}
+/**
+ *
+ *
+ * @export yearsToYearsMonthsDays
+ * @param {number} value
+ * @return {*}  {string}
+ */
+
+export function yearsToYearsMonthsDays(value: number): string {
+  const totalDays = value * 365;
+  const years = Math.floor(totalDays / 365);
+  const months = Math.floor((totalDays - years * 365) / 30);
+  const days = Math.floor(totalDays - years * 365 - months * 30);
+
+  return `${years} years, ${months} months, ${days} days`;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
