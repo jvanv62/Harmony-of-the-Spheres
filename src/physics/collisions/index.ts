@@ -1,6 +1,12 @@
 import { getDistanceParams, getRandomNumberInRange, clampAbs } from "../utils";
 import H3 from "../vectors";
-
+/**
+ *
+ *
+ * @author Darrell Huffman <happykoala@
+ * @export
+ * @class
+ */
 export default class {
   static doCollisions(masses: MassType[], scale: number, callback: Function) {
     let massesLen = masses.length;
@@ -50,7 +56,7 @@ export default class {
     return {
       x: getRandomNumberInRange(-maxAngle, maxAngle),
       y: getRandomNumberInRange(-maxAngle, maxAngle),
-      z: getRandomNumberInRange(-maxAngle, maxAngle)
+      z: getRandomNumberInRange(-maxAngle, maxAngle),
     };
   }
 
@@ -74,7 +80,7 @@ export default class {
     );
     const looserRadius = looser.radius / scale;
 
-    return [...new Array(fragments)].map(_fragment => {
+    return [...new Array(fragments)].map((_fragment) => {
       const ejectaRotationVector = this.getRandomRotationVector(25);
 
       const particleVelocity = new H3()
@@ -89,12 +95,12 @@ export default class {
         .set({
           x: looser.x,
           y: looser.y,
-          z: looser.z
+          z: looser.z,
         })
         .add({
           x: Math.sign(looser.vx) * (looserRadius * collisionDirectionVector.x),
           y: Math.sign(looser.vy) * (looserRadius * collisionDirectionVector.y),
-          z: Math.sign(looser.vz) * (looserRadius * collisionDirectionVector.z)
+          z: Math.sign(looser.vz) * (looserRadius * collisionDirectionVector.z),
         })
         .toObject();
 
@@ -106,7 +112,7 @@ export default class {
         vy: particleVelocity.y,
         vz: particleVelocity.z,
         lives: 20,
-        size: survivor.radius / 5
+        size: survivor.radius / 5,
       };
     });
   }
@@ -133,7 +139,7 @@ export default class {
     const d = new H3().set({
       x: looser.x - survivor.x,
       y: looser.y - survivor.y,
-      z: 0
+      z: 0,
     });
 
     const vLen = v.getLength();
@@ -149,7 +155,7 @@ export default class {
     return {
       x: looser.vx - d.x,
       y: looser.vy - d.y,
-      z: -looser.vz
+      z: -looser.vz,
     };
   }
 }
